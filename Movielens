@@ -1,0 +1,13 @@
+import numpy as np
+import pandas as pd
+
+df_mov=pd.read_csv('movies.dat', sep='::', header=None, names=['Mid','Title','Genre'])
+df_users=pd.read_csv('users.dat', sep='::', header=None, names=['Uid','Sex','Age','Occ','zipcd'])
+df_ratings=pd.read_csv('ratings.dat', sep='::', header=None, names=['Uid','Mid','Rating','Timestamp'])
+
+dft1= pd.merge(df_ratings, df_mov, how='left', on='Mid')
+dft_merged=pd.merge(dft1, df_users, how='left', on='Uid')
+master_data= dft_merged[['Mid','Title','Uid','Age','Sex','Occ', 'Rating']]
+
+zf=master_data.groupby(['Uid']).mean()
+zf
